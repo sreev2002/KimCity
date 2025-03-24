@@ -1,0 +1,11 @@
+html, body {
+    margin: 0;
+    height: 100%;
+ }
+#root-window{
+    height: 100%
+}
+
+#render-target{
+    height: 100%;
+}
