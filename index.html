@@ -19,12 +19,17 @@
         </div>
     <script type="module">
         import { createScene } from './src/scene.js';
-
+        import { createCity} from  './src/city.js'
         window.onload = () => {
+            const scene = createScene();
+            const city = createCity(10);
+
+            scene.initialize(city);
             window.scene = createScene();
             document.addEventListener('mousedown',window.scene.onMouseDown, false);
             document.addEventListener('mouseup',window.scene.onMouseUp, false);
             document.addEventListener('mousemove',window.scene.onMouseMove, false);
+            document.addEventListener('contextmenu', (event) => event.preventDefault(), false);
             window.scene.start();
         }
     </script>

@@ -19,14 +19,32 @@ export function createScene(){
     gameWindow.appendChild(renderer.domElement);
 
 
-    const geometry = new THREE.BoxGeometry(1,1,1);
-    const material = new THREE.MeshBasicMaterial({color: 0xffffff});
-    const mesh = new THREE.Mesh(geometry,material);
-    mesh.position.set(0,0,0);
-    
+   
+  
 
+    let meshes = [];
+    function initialize(city){
+        scene.clear();
+        meshes = [];
+        for ( let x=0 ; x < city.size ; x++){
+            const column = [];
+            for( let y=0 ; y < city.size ; y++){
+                // 1- Load mesh to the specific/corresponding tile(x,y coordinate)
+                // 2-  Add that mesh to scene
+                // 3- add that mesh to meshes array
+                // THE REASON WE USE AN ARRAY IS IF A TILE UPDATES ITS STATE THEN WE CAM UPDATE THE CORRESPONDING MESH
 
-    scene.add(mesh);
+                const geometry = new THREE.BoxGeometry(1,1,1);
+                const material = new THREE.MeshBasicMaterial({color: 0xffffff});
+                const mesh = new THREE.Mesh(geometry,material);
+                mesh.position.set (x, 0,y);  
+                scene.add(mesh);
+                column.push(mesh);
+            }
+            meshes.push(column);
+        }
+
+    }
 
     function draw(){
 
@@ -69,6 +87,7 @@ export function createScene(){
 
     return{
         start,
+        initialize,
         stop,
         onMouseDown,
         onMouseMove,
