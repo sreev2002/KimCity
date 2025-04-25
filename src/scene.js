@@ -22,7 +22,8 @@ export function createScene(){
    
   
 
-    let meshes = [];
+    let  meshes = [];
+
     function initialize(city){
         scene.clear();
         meshes = [];
@@ -45,6 +46,15 @@ export function createScene(){
         }
 
     }
+
+   function setupLights () {
+    const lights = {
+        new THREE.AmbientLight(0xffffff, 0.2),
+        new THREE.DirectionalLight(0xffffff,0.3),
+    }
+
+   }
+
 
     function draw(){
 

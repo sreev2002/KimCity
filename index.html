@@ -21,18 +21,17 @@
         import { createScene } from './src/scene.js';
         import { createCity} from  './src/city.js'
         window.onload = () => {
-            const scene = createScene();
-            const city = createCity(10);
-
-            scene.initialize(city);
-            window.scene = createScene();
-            document.addEventListener('mousedown',window.scene.onMouseDown, false);
-            document.addEventListener('mouseup',window.scene.onMouseUp, false);
-            document.addEventListener('mousemove',window.scene.onMouseMove, false);
-            document.addEventListener('contextmenu', (event) => event.preventDefault(), false);
-            window.scene.start();
-        }
+        const city = createCity(10);
+        const scene = createScene();
+        scene.initialize(city);
+        window.scene = scene; // <-- don't re-create it
+        document.addEventListener('mousedown', scene.onMouseDown, false);
+        document.addEventListener('mouseup', scene.onMouseUp, false);
+        document.addEventListener('mousemove', scene.onMouseMove, false);
+        document.addEventListener('contextmenu', (event) => event.preventDefault(), false);
+        scene.start();
+    };
     </script>
     
     </body>
-</html>
+</html> 
