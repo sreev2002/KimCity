@@ -18,19 +18,11 @@
             <div id="render-target"></div>
         </div>
     <script type="module">
-        import { createScene } from './src/scene.js';
-        import { createCity} from  './src/city.js'
+        import { createGame } from './src/game.js';
+
         window.onload = () => {
-        const city = createCity(10);
-        const scene = createScene();
-        scene.initialize(city);
-        window.scene = scene; // <-- don't re-create it
-        document.addEventListener('mousedown', scene.onMouseDown, false);
-        document.addEventListener('mouseup', scene.onMouseUp, false);
-        document.addEventListener('mousemove', scene.onMouseMove, false);
-        document.addEventListener('contextmenu', (event) => event.preventDefault(), false);
-        scene.start();
-    };
+            window.game = createGame();
+        }
     </script>
     
     </body>
