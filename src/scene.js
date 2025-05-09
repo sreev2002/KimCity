@@ -1,7 +1,7 @@
 
 import * as THREE from 'three';
 import { createCamera } from './camera.js';
-
+import { createAssetInstance } from './assets.js';
 
 
 
@@ -22,27 +22,37 @@ export function createScene(){
    
   
 
-    let  meshes = [];
-
+    let  terrain = [];
+    let buildings = [];
     function initialize(city){
         scene.clear();
-        meshes = [];
+        terrain = [];
+        buildings = [];
         for ( let x=0 ; x < city.size ; x++){
             const column = [];
             for( let y=0 ; y < city.size ; y++){
-                // 1- Load mesh to the specific/corresponding tile(x,y coordinate)
-                // 2-  Add that mesh to scene
-                // 3- add that mesh to meshes array
-                // THE REASON WE USE AN ARRAY IS IF A TILE UPDATES ITS STATE THEN WE CAM UPDATE THE CORRESPONDING MESH
-                // THe below code creates grass
+             
 
-                const geometry = new THREE.BoxGeometry(1,1,1);
-                const material = new THREE.MeshLambertMaterial({color: 0x00aa00});
-                const mesh = new THREE.Mesh(geometry,material);
-                mesh.position.set (x, -0.5,y);  
+                const mesh = createAssetInstance('grass',x,y)
+              
                 scene.add(mesh);
                 column.push(mesh);
 
+
+
+                
+            }
+            terrain.push(column);
+            buildings.push([...Array(city.size)]); //This will create a colmn of undefined values and the elements in the column will be city.size
+        }
+        setupLights();
+    }
+
+    function update(city){
+        for ( let x=0 ; x < city.size ; x++){
+        
+            for( let y=0 ; y < city.size ; y++){
+          
 
 
                 //Using the .slice method to get the last charecter from the string
@@ -50,22 +60,16 @@ export function createScene(){
                 const tile = city.data[x][y];
 
                 if (tile.building && tile.building.startsWith('building')){
-                const height = Number(tile.building.slice(-1));
-                const buildingGeometry = new THREE.BoxGeometry(1,height,1);
-                const buildingMaterial = new THREE.MeshLambertMaterial({color: 0xffffff});
-                const buildingMesh = new THREE.Mesh(buildingGeometry,buildingMaterial);
-                buildingMesh.position.set (x, height/2,y);  
-                scene.add(buildingMesh);
-                column.push(buildingMesh);
+                const mesh = createAssetInstance(tile.building,x,y);
+                if(buildings[x][y]){
+                    scene.remove(buildings[x][y]);
+                }
+                scene.add(mesh);
+                buildings[x][y] = mesh;
                 }
             }
-            meshes.push(column);
-        }
-        setupLights();
-    }
-
-    function update(city){
-        
+ 
+        }   
     }
 
    function setupLights () {
@@ -130,6 +134,7 @@ export function createScene(){
     return{
         start,
         initialize,
+        update,
         stop,
         onMouseDown,
         onMouseMove,

@@ -1,1 +1,1 @@
-Last paused at 21:13(pt3)
+Last paused at pt4 - 5:03 
