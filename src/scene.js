@@ -20,7 +20,9 @@ export function createScene(){
 
 
    
-  
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+    let selectedObject = undefined ;
 
     let  terrain = [];
     let buildings = [];
@@ -32,8 +34,8 @@ export function createScene(){
             const column = [];
             for( let y=0 ; y < city.size ; y++){
              
-
-                const mesh = createAssetInstance('grass',x,y)
+                const terrainId = city.data[x][y].terrainId;
+                const mesh = createAssetInstance(terrainId,x,y)
               
                 scene.add(mesh);
                 column.push(mesh);
@@ -53,20 +55,24 @@ export function createScene(){
         
             for( let y=0 ; y < city.size ; y++){
           
+                const currentBuildingId = buildings[x][y]?.userData.id;
+                const newBuildingId = city.data[x][y].buildingId;
 
 
-                //Using the .slice method to get the last charecter from the string
-                //code for building
-                const tile = city.data[x][y];
-
-                if (tile.building && tile.building.startsWith('building')){
-                const mesh = createAssetInstance(tile.building,x,y);
-                if(buildings[x][y]){
+                // building deletion 
+                if ( !newBuildingId && currentBuildingId){
                     scene.remove(buildings[x][y]);
+                    buildings[x][y] = undefined;
                 }
-                scene.add(mesh);
-                buildings[x][y] = mesh;
+
+                // update mesh if data model changed
+
+                if (newBuildingId !== currentBuildingId){
+                    scene.remove(buildings[x][y]);
+                    buildings[x][y] = createAssetInstance(newBuildingId, x, y);
+                    scene.add(buildings[x][y]);
                 }
+
             }
  
         }   
@@ -116,12 +122,28 @@ export function createScene(){
     function onMouseUp(event){
         camera.onMouseUp(event);
 
+        
     }
 
 
     
     function onMouseDown(event){
         camera.onMouseDown(event);
+        // need the normalized mouse position for the raycaster to identify mouse pos
+        // normalzed postions are the x and y valus bw -1 and 1
+        mouse.x = (event.clientX / renderer.domElement.clientWidth) *2 - 1;
+        mouse.y = -(event.clientY / renderer.domElement.clientHeight) *2 + 1;
+    
+        raycaster.setFromCamera(mouse, camera.camera);
+
+        let intersections = raycaster.intersectObjects(scene.children, false);
+
+        if ( intersections.length > 0){
+            console.log(intersections[0]);
+            if(selectedObject) selectedObject.material.emissive.setHex(0);
+            selectedObject = intersections[0].object;
+            selectedObject.material.emissive.setHex(0x555555);
+        }
     }
 
     function onMouseMove(event){
