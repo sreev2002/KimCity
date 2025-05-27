@@ -15,7 +15,15 @@
     </head>
     <body>
         <div id="root-window">
-            <div id="render-target"></div>
+            <div id="render-target">
+                <div id="ui-toolbar">
+                    <button id="button-bulldoze" class = 'ui-button selected' >BULLDOZE</button>
+                    <button id = 'button-residential' class = 'ui-button' >RESIDENTIAL</button>
+                    <button id = 'button-commercial' class = 'ui-button'>COMMERCIAL</button>
+                    <button id = 'button-industrial' class = 'ui-button'>INDUSTRIAL</button>
+                    <button id = 'button-road' class = 'ui-button'>ROAD</button>
+                </div>
+            </div>
         </div>
     <script type="module">
         import { createGame } from './src/game.js';
