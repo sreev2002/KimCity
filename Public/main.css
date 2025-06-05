@@ -11,7 +11,7 @@ html , body{
     background-color: #00000033;
 }
 
-.ui-buttom{
+.ui-button{
     background-color: #00000055;
     border: 1px solid black;
     color: lightgray;
@@ -22,14 +22,10 @@ html , body{
 }
 
 
+
 .ui-button.selected{
-    background-color: #00000055;
-
-}
-
-
-.ui-button.selected { 
     background-color: #55558855;
+
 }
 
 
@@ -43,5 +39,6 @@ html , body{
 
 
 #render-target{
+    position: relative  ;
     height: 100%;
 }

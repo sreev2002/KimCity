@@ -1,1 +1,1 @@
-Last paused at pt5 - 5:09
+Last paused at pt6 - 223,446(Watch from 223)

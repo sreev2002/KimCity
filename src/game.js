@@ -3,7 +3,9 @@ import { createCity} from  './city.js'
 
 export function createGame() {
 
-   
+    let activeToolId = '';
+
+
     const city = createCity(16);
     const scene = createScene();
         
@@ -24,6 +26,10 @@ export function createGame() {
         update() {
             city.update();
             scene.update(city);
+        },
+        setActiveToolId(toolId){
+            activeToolId = toolId;
+            console.log(activeToolId);
         }
     }
 

@@ -28,10 +28,19 @@
     <script type="module">
         import { createGame } from './src/game.js';
 
+
+        let selectedControl = document.getElementById('button-bulldoze');
         window.onload = () => {
             window.game = createGame();
         }
-    </script>
-    
+        window.setActiveTool = (event, toolId) =>{
+            if (selectedControl){
+                selectedControl.classList.remove('selected'); 
+            }
+            selectedControl = event.target;
+            seletdControl.classList.add('selected');
+            
+        }
+    </script> 
     </body>
 </html> 
